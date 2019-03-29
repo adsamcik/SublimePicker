@@ -24,6 +24,7 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 
 import com.appeaser.sublimepickerlibrary.R
 
@@ -32,7 +33,7 @@ import com.appeaser.sublimepickerlibrary.R
  * Needs fixing.
  */
 internal class CircularIndicatorTextView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null,
-                                                                   defStyleAttr: Int = 0, defStyleRes: Int = 0) : TextView(context, attrs) {
+                                                                   defStyleAttr: Int = 0, defStyleRes: Int = 0) : AppCompatTextView(context, attrs) {
 
 	private val mCirclePaint = Paint()
 

@@ -19,8 +19,8 @@ package com.appeaser.sublimepickerlibrary.datepicker
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Parcelable
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
@@ -38,7 +38,7 @@ import java.util.ArrayList
 /**
  * This displays a list of months in a calendar format with selectable days.
  */
-internal class DayPickerViewPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewPager(context, attrs) {
+internal class DayPickerViewPager @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : androidx.viewpager.widget.ViewPager(context, attrs) {
 
 	private val MONTH_SCROLL_THRESHOLD: Int
 	private val TOUCH_SLOP_SQUARED: Int
@@ -84,12 +84,12 @@ internal class DayPickerViewPager @JvmOverloads constructor(context: Context, at
 			val child = getChildAt(i)
 			if (child.visibility != View.GONE) {
 				measureChild(child, widthMeasureSpec, heightMeasureSpec)
-				val lp = child.layoutParams as ViewPager.LayoutParams
+				val lp = child.layoutParams as androidx.viewpager.widget.ViewPager.LayoutParams
 				maxWidth = Math.max(maxWidth, child.measuredWidth)
 				maxHeight = Math.max(maxHeight, child.measuredHeight)
 				childState = View.combineMeasuredStates(childState, child.measuredState)
 				if (measureMatchParentChildren) {
-					if (lp.width == ViewPager.LayoutParams.MATCH_PARENT || lp.height == ViewPager.LayoutParams.MATCH_PARENT) {
+					if (lp.width == androidx.viewpager.widget.ViewPager.LayoutParams.MATCH_PARENT || lp.height == androidx.viewpager.widget.ViewPager.LayoutParams.MATCH_PARENT) {
 						mMatchParentChildren.add(child)
 					}
 				}
@@ -122,11 +122,11 @@ internal class DayPickerViewPager @JvmOverloads constructor(context: Context, at
 			for (i in 0 until count) {
 				val child = mMatchParentChildren[i]
 
-				val lp = child.layoutParams as ViewPager.LayoutParams
+				val lp = child.layoutParams as androidx.viewpager.widget.ViewPager.LayoutParams
 				val childWidthMeasureSpec: Int
 				val childHeightMeasureSpec: Int
 
-				if (lp.width == ViewPager.LayoutParams.MATCH_PARENT) {
+				if (lp.width == androidx.viewpager.widget.ViewPager.LayoutParams.MATCH_PARENT) {
 					childWidthMeasureSpec = View.MeasureSpec.makeMeasureSpec(
 							measuredWidth - paddingLeft - paddingRight,
 							View.MeasureSpec.EXACTLY)
@@ -136,7 +136,7 @@ internal class DayPickerViewPager @JvmOverloads constructor(context: Context, at
 							lp.width)
 				}
 
-				if (lp.height == ViewPager.LayoutParams.MATCH_PARENT) {
+				if (lp.height == androidx.viewpager.widget.ViewPager.LayoutParams.MATCH_PARENT) {
 					childHeightMeasureSpec = View.MeasureSpec.makeMeasureSpec(
 							measuredHeight - paddingTop - paddingBottom,
 							View.MeasureSpec.EXACTLY)
@@ -155,7 +155,7 @@ internal class DayPickerViewPager @JvmOverloads constructor(context: Context, at
 
 	private fun initializePopulateMethod() {
 		try {
-			mPopulateMethod = ViewPager::class.java!!.getDeclaredMethod("populate", *null as Array<Class<*>>?)
+			mPopulateMethod = androidx.viewpager.widget.ViewPager::class.java.getDeclaredMethod("populate", *null as Array<Class<*>>?)
 			mPopulateMethod!!.isAccessible = true
 		} catch (nsme: NoSuchMethodException) {
 			nsme.printStackTrace()
@@ -515,7 +515,7 @@ internal class DayPickerViewPager @JvmOverloads constructor(context: Context, at
         }
     }*/
 
-	override fun setAdapter(adapter: PagerAdapter?) {
+	override fun setAdapter(adapter: androidx.viewpager.widget.PagerAdapter?) {
 		super.setAdapter(adapter)
 
 		if (adapter is DayPickerPagerAdapter) {
@@ -541,7 +541,7 @@ internal class DayPickerViewPager @JvmOverloads constructor(context: Context, at
 
 	companion object {
 
-		private val TAG = DayPickerViewPager::class.java!!.getSimpleName()
+		private val TAG = DayPickerViewPager::class.java.getSimpleName()
 
 		// Scrolling support
 		private val SCROLLING_LEFT = -1

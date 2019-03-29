@@ -277,7 +277,7 @@ class SublimePicker : FrameLayout, SublimeDatePicker.OnDateChangedListener, Subl
 					switchButtonText = mDefaultTimeFormatter!!.format(toFormat)
 				}
 
-				mButtonLayout!!.updateSwitcherText(SublimeOptions.Picker.DATE_PICKER, switchButtonText)
+				mButtonLayout!!.updateSwitcherText(SublimeOptions.Picker.DATE_PICKER, switchButtonText!!)
 			}
 
 			if (!mDatePickerSyncStateCalled) {
@@ -340,27 +340,31 @@ class SublimePicker : FrameLayout, SublimeDatePicker.OnDateChangedListener, Subl
 
 		val elapsedTime = (endDate.timeInMillis - startDate.timeInMillis).toFloat()
 
-		if (elapsedTime >= DateUtils.YEAR_IN_MILLIS) {
-			val years = elapsedTime / DateUtils.YEAR_IN_MILLIS
+		when {
+			elapsedTime >= DateUtils.YEAR_IN_MILLIS -> {
+				val years = elapsedTime / DateUtils.YEAR_IN_MILLIS
 
-			val roundUp = years - years.toInt() > 0.5f
-			val yearsVal = if (roundUp) (years + 1).toInt() else years.toInt()
+				val roundUp = years - years.toInt() > 0.5f
+				val yearsVal = if (roundUp) (years + 1).toInt() else years.toInt()
 
-			return "~" + yearsVal + " " + if (yearsVal == 1) "year" else "years"
-		} else if (elapsedTime >= MONTH_IN_MILLIS) {
-			val months = elapsedTime / MONTH_IN_MILLIS
+				return "~" + yearsVal + " " + if (yearsVal == 1) "year" else "years"
+			}
+			elapsedTime >= MONTH_IN_MILLIS -> {
+				val months = elapsedTime / MONTH_IN_MILLIS
 
-			val roundUp = months - months.toInt() > 0.5f
-			val monthsVal = if (roundUp) (months + 1).toInt() else months.toInt()
+				val roundUp = months - months.toInt() > 0.5f
+				val monthsVal = if (roundUp) (months + 1).toInt() else months.toInt()
 
-			return "~" + monthsVal + " " + if (monthsVal == 1) "month" else "months"
-		} else {
-			val days = elapsedTime / DateUtils.DAY_IN_MILLIS
+				return "~" + monthsVal + " " + if (monthsVal == 1) "month" else "months"
+			}
+			else -> {
+				val days = elapsedTime / DateUtils.DAY_IN_MILLIS
 
-			val roundUp = days - days.toInt() > 0.5f
-			val daysVal = if (roundUp) (days + 1).toInt() else days.toInt()
+				val roundUp = days - days.toInt() > 0.5f
+				val daysVal = if (roundUp) (days + 1).toInt() else days.toInt()
 
-			return "~" + daysVal + " " + if (daysVal == 1) "day" else "days"
+				return "~" + daysVal + " " + if (daysVal == 1) "day" else "days"
+			}
 		}
 	}
 
@@ -403,7 +407,7 @@ class SublimePicker : FrameLayout, SublimeDatePicker.OnDateChangedListener, Subl
 	}
 
 	override fun onSaveInstanceState(): Parcelable? {
-		return SavedState(super.onSaveInstanceState(), mCurrentPicker, mHiddenPicker,
+		return SavedState(super.onSaveInstanceState()!!, mCurrentPicker, mHiddenPicker,
 				mCurrentRecurrenceOption, mRecurrenceRule)
 	}
 
@@ -437,7 +441,7 @@ class SublimePicker : FrameLayout, SublimeDatePicker.OnDateChangedListener, Subl
 		/**
 		 * Constructor called from [SublimePicker.onSaveInstanceState]
 		 */
-		private constructor(superState: Parcelable, currentPicker: SublimeOptions.Picker,
+		internal constructor(superState: Parcelable, currentPicker: SublimeOptions.Picker,
 		                    hiddenPicker: SublimeOptions.Picker,
 		                    recurrenceOption: SublimeRecurrencePicker.RecurrenceOption,
 		                    recurrenceRule: String) : super(superState) {
@@ -471,13 +475,14 @@ class SublimePicker : FrameLayout, SublimeDatePicker.OnDateChangedListener, Subl
 		companion object {
 
 			// suppress unused and hiding
+			@JvmField
 			val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
 
 				override fun createFromParcel(`in`: Parcel): SavedState {
 					return SavedState(`in`)
 				}
 
-				override fun newArray(size: Int): Array<SavedState> {
+				override fun newArray(size: Int): Array<SavedState?> {
 					return arrayOfNulls(size)
 				}
 			}
@@ -606,10 +611,10 @@ class SublimePicker : FrameLayout, SublimeDatePicker.OnDateChangedListener, Subl
 	}
 
 	companion object {
-		private val TAG = SublimePicker::class.java!!.getSimpleName()
+		private val TAG = SublimePicker::class.java.getSimpleName()
 
 		// Used for formatting date range
-		private val MONTH_IN_MILLIS = DateUtils.YEAR_IN_MILLIS / 12
+		private const val MONTH_IN_MILLIS = DateUtils.YEAR_IN_MILLIS / 12
 
 		private fun createThemeWrapper(context: Context): ContextThemeWrapper {
 			val forParent = context.obtainStyledAttributes(

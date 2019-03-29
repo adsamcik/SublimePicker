@@ -28,9 +28,9 @@ import android.graphics.RectF
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.view.ViewCompat
-import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat
-import android.support.v4.widget.ExploreByTouchHelper
+import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
+import androidx.customview.widget.ExploreByTouchHelper
 import android.text.TextPaint
 import android.text.format.DateFormat
 import android.util.AttributeSet
@@ -40,6 +40,7 @@ import android.view.View
 import android.view.ViewConfiguration
 import android.view.accessibility.AccessibilityEvent
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 
 import com.appeaser.sublimepickerlibrary.R
 import com.appeaser.sublimepickerlibrary.common.DateTimePatternHelper
@@ -56,11 +57,6 @@ import java.util.Locale
  * within the specified month.
  */
 internal class SimpleMonthView : View {
-
-	private val DRAW_RECT = 0
-	private val DRAW_RECT_WITH_CURVE_ON_LEFT = 1
-	private val DRAW_RECT_WITH_CURVE_ON_RIGHT = 2
-
 	private val mMonthPaint = TextPaint()
 	private val mDayOfWeekPaint = TextPaint()
 	private val mDayPaint = TextPaint()
@@ -153,15 +149,10 @@ internal class SimpleMonthView : View {
 
 	private var mTouchSlopSquared: Int = 0
 
-	private var mPaddingRangeIndicator: Float = 0.toFloat()
+	private var mPaddingRangeIndicator: Float = 0f
 
 	val title: CharSequence
-		get() {
-			if (mTitle == null) {
-				mTitle = mTitleFormatter!!.format(mCalendar.time)
-			}
-			return mTitle
-		}
+		get() = mTitle ?:  mTitleFormatter!!.format(mCalendar.time)
 
 	private var mPendingCheckForTap: CheckForTap? = null
 	private var mInitialTarget = -1
@@ -229,11 +220,10 @@ internal class SimpleMonthView : View {
 	 */
 	private fun applyTextAppearance(p: Paint, resId: Int): ColorStateList? {
 		// Workaround for inaccessible R.styleable.TextAppearance_*
-		val tv = TextView(mContext)
+		val tv = AppCompatTextView(mContext)
 		if (SUtils.isApi_23_OrHigher) {
 			tv.setTextAppearance(resId)
 		} else {
-
 			tv.setTextAppearance(mContext, resId)
 		}
 
@@ -287,13 +277,13 @@ internal class SimpleMonthView : View {
 
 		mMonthPaint.isAntiAlias = true
 		mMonthPaint.textSize = monthTextSize.toFloat()
-		mMonthPaint.typeface = Typeface.create(monthTypeface, 0)
+		mMonthPaint.typeface = Typeface.create(monthTypeface, Typeface.NORMAL)
 		mMonthPaint.textAlign = Paint.Align.CENTER
 		mMonthPaint.style = Paint.Style.FILL
 
 		mDayOfWeekPaint.isAntiAlias = true
 		mDayOfWeekPaint.textSize = dayOfWeekTextSize.toFloat()
-		mDayOfWeekPaint.typeface = Typeface.create(dayOfWeekTypeface, 0)
+		mDayOfWeekPaint.typeface = Typeface.create(dayOfWeekTypeface, Typeface.NORMAL)
 		mDayOfWeekPaint.textAlign = Paint.Align.CENTER
 		mDayOfWeekPaint.style = Paint.Style.FILL
 
@@ -913,7 +903,7 @@ internal class SimpleMonthView : View {
 		return true
 	}
 
-	private inner class MonthViewTouchHelper(forView: View) : ExploreByTouchHelper(forView) {
+	private inner class MonthViewTouchHelper(forView: View) : androidx.customview.widget.ExploreByTouchHelper(forView) {
 
 		private val mTempRect = Rect()
 		private val mTempCalendar = Calendar.getInstance()
@@ -922,7 +912,7 @@ internal class SimpleMonthView : View {
 			val day = getDayAtLocation((x + 0.5f).toInt(), (y + 0.5f).toInt())
 			return if (day != -1) {
 				day
-			} else ExploreByTouchHelper.INVALID_ID
+			} else androidx.customview.widget.ExploreByTouchHelper.INVALID_ID
 		}
 
 		override fun getVisibleVirtualViews(virtualViewIds: MutableList<Int>) {
@@ -999,11 +989,6 @@ internal class SimpleMonthView : View {
 			} else null
 
 		}
-
-		companion object {
-
-			private val DATE_FORMAT = "dd MMMM yyyy"
-		}
 	}
 
 	fun composeDate(day: Int): Calendar? {
@@ -1051,7 +1036,7 @@ internal class SimpleMonthView : View {
 		}
 
 		fun isActivated(day: Int): Boolean {
-			return day >= startingDay && day <= endingDay
+			return day in startingDay..endingDay
 		}
 
 		fun isStartingDayOfRange(day: Int): Boolean {
@@ -1082,26 +1067,29 @@ internal class SimpleMonthView : View {
 	}
 
 	companion object {
-		private val TAG = SimpleMonthView::class.java!!.getSimpleName()
+		private val TAG = SimpleMonthView::class.java.simpleName
 
-		private val DAYS_IN_WEEK = 7
-		private val MAX_WEEKS_IN_MONTH = 6
+		private const val DAYS_IN_WEEK = 7
+		private const val MAX_WEEKS_IN_MONTH = 6
 
-		private val DEFAULT_SELECTED_DAY = -1
-		private val DEFAULT_WEEK_START = Calendar.SUNDAY
+		private const val DEFAULT_SELECTED_DAY = -1
+		private const val DEFAULT_WEEK_START = Calendar.SUNDAY
 
-		private val DEFAULT_TITLE_FORMAT = "MMMMy"
-		private val DAY_OF_WEEK_FORMAT: String
-
-		init {
-			// Deals with the change in usage of `EEEEE` pattern.
-			// See method `SimpleDateFormat#appendDayOfWeek(...)` for more details.
-			if (SUtils.isApi_18_OrHigher) {
-				DAY_OF_WEEK_FORMAT = "EEEEE"
-			} else {
-				DAY_OF_WEEK_FORMAT = "E"
-			}
+		private const val DEFAULT_TITLE_FORMAT = "MMMMy"
+		// Deals with the change in usage of `EEEEE` pattern.
+		// See method `SimpleDateFormat#appendDayOfWeek(...)` for more details.
+		private val DAY_OF_WEEK_FORMAT: String = if (SUtils.isApi_18_OrHigher) {
+			"EEEEE"
+		} else {
+			"E"
 		}
+
+		private const val DATE_FORMAT = "dd MMMM yyyy"
+
+		private const val DRAW_RECT = 0
+		private const val DRAW_RECT_WITH_CURVE_ON_LEFT = 1
+		private const val DRAW_RECT_WITH_CURVE_ON_RIGHT = 2
+
 
 		private fun isValidDayOfWeek(day: Int): Boolean {
 			return day >= Calendar.SUNDAY && day <= Calendar.SATURDAY

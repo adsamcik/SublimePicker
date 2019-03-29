@@ -37,10 +37,10 @@ abstract class SublimeListenerAdapter {
 	 * other than 'CUSTOM'.
 	 */
 	abstract fun onDateTimeRecurrenceSet(sublimeMaterialPicker: SublimePicker,
-	                                     selectedDate: SelectedDate,
+	                                     selectedDate: SelectedDate?,
 	                                     hourOfDay: Int, minute: Int,
 	                                     recurrenceOption: SublimeRecurrencePicker.RecurrenceOption,
-	                                     recurrenceRule: String)
+	                                     recurrenceRule: String?)
 
 	// Cancel button or icon clicked
 	abstract fun onCancelled()

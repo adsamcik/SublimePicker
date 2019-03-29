@@ -416,7 +416,7 @@ class RecurrenceEndDatePicker : FrameLayout {
 	}
 
 	override fun getAccessibilityClassName(): CharSequence {
-		return SublimeDatePicker::class.java!!.getName()
+		return SublimeDatePicker::class.java.getName()
 	}
 
 	fun setValidationCallback(callback: DatePickerValidationCallback) {
@@ -534,7 +534,7 @@ class RecurrenceEndDatePicker : FrameLayout {
 	}
 
 	companion object {
-		private val TAG = RecurrenceEndDatePicker::class.java!!.getSimpleName()
+		private val TAG = RecurrenceEndDatePicker::class.java.getSimpleName()
 
 		private val DEFAULT_START_YEAR = 1900
 		private val DEFAULT_END_YEAR = 2100

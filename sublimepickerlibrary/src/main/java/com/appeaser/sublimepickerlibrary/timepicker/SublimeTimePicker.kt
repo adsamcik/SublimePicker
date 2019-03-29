@@ -26,9 +26,9 @@ import android.content.res.TypedArray
 import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
-import android.support.v4.view.AccessibilityDelegateCompat
-import android.support.v4.view.ViewCompat
-import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat
+import androidx.core.view.AccessibilityDelegateCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.text.format.DateFormat
@@ -1302,7 +1302,7 @@ class SublimeTimePicker : FrameLayout, RadialTimePickerView.OnValueSelectedListe
 
 	companion object {
 
-		private val TAG = SublimeTimePicker::class.java!!.getSimpleName()
+		private val TAG = SublimeTimePicker::class.java.getSimpleName()
 
 		// Index used by RadialPickerLayout
 		private val HOUR_INDEX = 0

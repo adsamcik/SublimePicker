@@ -14,7 +14,7 @@ import java.util.Locale
  */
 object DateTimePatternHelper {
 
-	private val TAG = DateTimePatternHelper::class.java!!.getSimpleName()
+	private val TAG = DateTimePatternHelper::class.java.getSimpleName()
 
 	/**
 	 * Used in [SublimeDatePicker.onLocaleChanged]

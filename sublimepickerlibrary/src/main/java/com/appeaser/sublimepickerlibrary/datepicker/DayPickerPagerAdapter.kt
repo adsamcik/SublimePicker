@@ -19,9 +19,9 @@ package com.appeaser.sublimepickerlibrary.datepicker
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
-import android.support.annotation.IdRes
-import android.support.annotation.LayoutRes
-import android.support.v4.view.PagerAdapter
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
+import androidx.viewpager.widget.PagerAdapter
 import android.util.Log
 import android.util.SparseArray
 import android.view.LayoutInflater
@@ -38,7 +38,7 @@ import java.util.Calendar
  * An adapter for a list of [SimpleMonthView] items.
  */
 internal class DayPickerPagerAdapter(context: Context, @param:LayoutRes private val mLayoutResId: Int,
-                                     @param:IdRes private val mCalendarViewId: Int) : PagerAdapter() {
+                                     @param:IdRes private val mCalendarViewId: Int) : androidx.viewpager.widget.PagerAdapter() {
 
 	private val mMinDate = Calendar.getInstance()
 	private val mMaxDate = Calendar.getInstance()
@@ -450,7 +450,7 @@ internal class DayPickerPagerAdapter(context: Context, @param:LayoutRes private 
 
 	companion object {
 
-		private val TAG = DayPickerPagerAdapter::class.java!!.getSimpleName()
+		private val TAG = DayPickerPagerAdapter::class.java.getSimpleName()
 
 		private val MONTHS_IN_YEAR = 12
 	}

@@ -6,7 +6,7 @@ import android.content.res.Resources
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.util.TypedValue
 import android.view.View
 import android.widget.Button
@@ -27,17 +27,17 @@ class ButtonHandler(sublimePicker: SublimePicker) : View.OnClickListener {
 	private var mPortraitButtonHandler: ButtonLayout? = null
 
 	// Can be 'android.widget.Button' or 'android.widget.ImageView'
-	internal var mPositiveButtonDP: View
-	internal var mPositiveButtonTP: View
-	internal var mNegativeButtonDP: View
-	internal var mNegativeButtonTP: View
+	internal lateinit var mPositiveButtonDP: View
+	internal lateinit var mPositiveButtonTP: View
+	internal lateinit var mNegativeButtonDP: View
+	internal lateinit var mNegativeButtonTP: View
 	// 'Button' used for switching between 'SublimeDatePicker'
 	// and 'SublimeTimePicker'. Also displays the currently
 	// selected date/time depending on the visible picker
-	internal var mSwitcherButtonDP: Button
-	internal var mSwitcherButtonTP: Button
+	internal lateinit var mSwitcherButtonDP: Button
+	internal lateinit var mSwitcherButtonTP: Button
 
-	internal var mCallback: Callback
+	internal lateinit var mCallback: Callback
 
 	internal var mIconOverlayColor: Int = 0 /* color used with the applied 'ColorFilter' */
 	internal var mDisabledAlpha: Int = 0 /* android.R.attr.disabledAlpha * 255 */

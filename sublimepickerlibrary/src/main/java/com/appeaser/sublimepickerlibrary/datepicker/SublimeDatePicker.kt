@@ -745,7 +745,7 @@ class SublimeDatePicker : FrameLayout {
 	}
 
 	override fun getAccessibilityClassName(): CharSequence {
-		return SublimeDatePicker::class.java!!.getName()
+		return SublimeDatePicker::class.java.getName()
 	}
 
 	fun setValidationCallback(callback: DatePickerValidationCallback) {
@@ -869,7 +869,7 @@ class SublimeDatePicker : FrameLayout {
 	}
 
 	companion object {
-		private val TAG = SublimeDatePicker::class.java!!.getSimpleName()
+		private val TAG = SublimeDatePicker::class.java.getSimpleName()
 
 		private val UNINITIALIZED = -1
 		private val VIEW_MONTH_DAY = 0

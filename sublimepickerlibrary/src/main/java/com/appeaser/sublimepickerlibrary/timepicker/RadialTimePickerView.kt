@@ -37,10 +37,10 @@ import android.graphics.Region
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
-import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat
-import android.support.v4.widget.ExploreByTouchHelper
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
+import androidx.customview.widget.ExploreByTouchHelper
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
@@ -827,7 +827,7 @@ class RadialTimePickerView : View {
 		invalidate()
 	}
 
-	private inner class RadialPickerTouchHelper : ExploreByTouchHelper(this@RadialTimePickerView) {
+	private inner class RadialPickerTouchHelper : androidx.customview.widget.ExploreByTouchHelper(this@RadialTimePickerView) {
 		private val mTempRect = Rect()
 
 		private val TYPE_HOUR = 1
@@ -892,7 +892,7 @@ class RadialTimePickerView : View {
 			node.isSelected = selected
 
 			val nextId = getVirtualViewIdAfter(type, value)
-			if (nextId != ExploreByTouchHelper.INVALID_ID) {
+			if (nextId != androidx.customview.widget.ExploreByTouchHelper.INVALID_ID) {
 				node.setTraversalBefore(this@RadialTimePickerView, nextId)
 			}
 		}
@@ -1001,7 +1001,7 @@ class RadialTimePickerView : View {
 					id = makeId(TYPE_MINUTE, minute)
 				}
 			} else {
-				id = ExploreByTouchHelper.INVALID_ID
+				id = androidx.customview.widget.ExploreByTouchHelper.INVALID_ID
 			}
 
 			return id
@@ -1039,7 +1039,7 @@ class RadialTimePickerView : View {
 					return makeId(type, nextValue)
 				}
 			}
-			return ExploreByTouchHelper.INVALID_ID
+			return androidx.customview.widget.ExploreByTouchHelper.INVALID_ID
 		}
 
 		private fun hour12To24(hour12: Int, amOrPm: Int): Int {
@@ -1135,7 +1135,7 @@ class RadialTimePickerView : View {
 	private class IntHolder(var value: Int)
 
 	companion object {
-		private val TAG = RadialTimePickerView::class.java!!.getSimpleName()
+		private val TAG = RadialTimePickerView::class.java.getSimpleName()
 
 		private val HOURS = 0
 		private val MINUTES = 1

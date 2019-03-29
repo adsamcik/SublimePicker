@@ -20,14 +20,12 @@ package com.appeaser.sublimepickerlibrary.recurrencepicker
 import android.annotation.TargetApi
 import android.content.Context
 import android.content.res.Resources
-import android.content.res.TypedArray
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -40,7 +38,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.CompoundButton
 import android.widget.DatePicker
 import android.widget.EditText
@@ -335,16 +332,15 @@ class RecurrenceOptionCreator : FrameLayout, AdapterView.OnItemSelectedListener,
 		}
 	}
 
-	internal open inner class minMaxTextWatcher(private val mMin: Int, private val mDefault: Int, private val mMax: Int) : TextWatcher {
+	internal open inner class MinMaxTextWatcher(private val mMin: Int, private val mDefault: Int, private val mMax: Int) : TextWatcher {
 
 		override fun afterTextChanged(s: Editable) {
 
 			var updated = false
-			var value: Int
-			try {
-				value = Integer.parseInt(s.toString())
+			var value: Int = try {
+				Integer.parseInt(s.toString())
 			} catch (e: NumberFormatException) {
-				value = mDefault
+				mDefault
 			}
 
 			if (value < mMin) {
@@ -454,7 +450,7 @@ class RecurrenceOptionCreator : FrameLayout, AdapterView.OnItemSelectedListener,
 		}
 
 		mInterval = findViewById<View>(R.id.interval) as EditText
-		mInterval!!.addTextChangedListener(object : minMaxTextWatcher(1, INTERVAL_DEFAULT, INTERVAL_MAX) {
+		mInterval!!.addTextChangedListener(object : MinMaxTextWatcher(1, INTERVAL_DEFAULT, INTERVAL_MAX) {
 			override fun onChange(v: Int) {
 				if (mIntervalResId != -1 && mInterval!!.text.toString().length > 0) {
 					mModel.interval = v
@@ -483,7 +479,7 @@ class RecurrenceOptionCreator : FrameLayout, AdapterView.OnItemSelectedListener,
 		mEndSpinner!!.adapter = mEndSpinnerAdapter
 
 		mEndCount = findViewById<View>(R.id.endCount) as EditText
-		mEndCount!!.addTextChangedListener(object : minMaxTextWatcher(1, COUNT_DEFAULT, COUNT_MAX) {
+		mEndCount!!.addTextChangedListener(object : MinMaxTextWatcher(1, COUNT_DEFAULT, COUNT_MAX) {
 			override fun onChange(v: Int) {
 				if (mModel.endCount != v) {
 					mModel.endCount = v
@@ -741,7 +737,7 @@ class RecurrenceOptionCreator : FrameLayout, AdapterView.OnItemSelectedListener,
 		 * Constructor called from [.CREATOR]
 		 */
 		private constructor(`in`: Parcel) : super(`in`) {
-			recurrenceModel = `in`.readParcelable(RecurrenceModel::class.java!!.getClassLoader())
+			recurrenceModel = `in`.readParcelable(RecurrenceModel::class.java.getClassLoader())
 			endCountHasFocus = `in`.readByte().toInt() != 0
 			currentView = CurrentView.valueOf(`in`.readString())
 		}

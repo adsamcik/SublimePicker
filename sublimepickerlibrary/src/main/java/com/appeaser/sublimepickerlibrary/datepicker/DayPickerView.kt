@@ -19,7 +19,7 @@ package com.appeaser.sublimepickerlibrary.datepicker
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.ViewPager
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -194,7 +194,7 @@ internal class DayPickerView @JvmOverloads constructor(context: Context, attrs: 
 		mNextButton = findViewById<View>(R.id.next) as ImageButton
 		mNextButton.setOnClickListener(onClickListener)
 
-		val onPageChangedListener = object : ViewPager.OnPageChangeListener {
+		val onPageChangedListener = object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
 			override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 				val alpha = Math.abs(0.5f - positionOffset) * 2.0f
 				mPrevButton.alpha = alpha
@@ -431,7 +431,7 @@ internal class DayPickerView @JvmOverloads constructor(context: Context, attrs: 
 	}
 
 	companion object {
-		private val TAG = DayPickerView::class.java!!.getSimpleName()
+		private val TAG = DayPickerView::class.java.getSimpleName()
 
 		private val ATTRS_TEXT_COLOR = intArrayOf(android.R.attr.textColor)
 	}

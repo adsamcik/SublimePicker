@@ -677,7 +677,7 @@ class EventRecurrence {
 	}
 
 	companion object {
-		private val TAG = EventRecurrence::class.java!!.getSimpleName()
+		private val TAG = EventRecurrence::class.java.getSimpleName()
 
 		val SECONDLY = 1
 		val MINUTELY = 2
