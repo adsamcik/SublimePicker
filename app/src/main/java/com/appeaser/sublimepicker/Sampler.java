@@ -301,15 +301,15 @@ public class Sampler extends AppCompatActivity {
         int displayOptions = 0;
 
         if (cbDatePicker.isChecked()) {
-            displayOptions |= SublimeOptions.ACTIVATE_DATE_PICKER;
+            displayOptions |= SublimeOptions.Companion.getACTIVATE_DATE_PICKER();
         }
 
         if (cbTimePicker.isChecked()) {
-            displayOptions |= SublimeOptions.ACTIVATE_TIME_PICKER;
+            displayOptions |= SublimeOptions.Companion.getACTIVATE_TIME_PICKER();
         }
 
         if (cbRecurrencePicker.isChecked()) {
-            displayOptions |= SublimeOptions.ACTIVATE_RECURRENCE_PICKER;
+            displayOptions |= SublimeOptions.Companion.getACTIVATE_RECURRENCE_PICKER();
         }
 
         if (rbDatePicker.getVisibility() == View.VISIBLE && rbDatePicker.isChecked()) {
